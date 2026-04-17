@@ -2,6 +2,20 @@
 
 Backend service for a live code execution feature in a job simulation platform.
 
+## Table Of Contents
+
+- [Tech Stack](#tech-stack)
+- [Technology Choices And Why](#technology-choices-and-why)
+- [Architecture Overview](#architecture-overview)
+- [API Documentation](#api-documentation)
+- [Execution Lifecycle](#execution-lifecycle)
+- [Supported Languages](#supported-languages)
+- [Local Development](#local-development)
+- [Environment Variables](#environment-variables)
+- [Design Decisions and Trade-offs](#design-decisions-and-trade-offs)
+- [What I Would Improve Next](#what-i-would-improve-next)
+- [Current Gaps](#current-gaps)
+
 The system supports:
 
 - Live code sessions

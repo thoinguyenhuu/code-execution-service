@@ -1,5 +1,18 @@
 # Design Notes
 
+## Table Of Contents
+
+- [1. Architecture Overview](#1-architecture-overview)
+- [2. End-to-End Request Flow](#2-end-to-end-request-flow)
+- [3. Data Model](#3-data-model)
+- [4. Execution Lifecycle](#4-execution-lifecycle)
+- [5. Reliability](#5-reliability)
+- [6. Safety](#6-safety)
+- [7. Scalability Considerations](#7-scalability-considerations)
+- [8. Trade-offs](#8-trade-offs)
+- [9. Production Readiness Gaps](#9-production-readiness-gaps)
+- [10. Testing Status](#10-testing-status)
+
 ## 1. Architecture Overview
 
 This service implements a basic live code execution backend with an asynchronous execution model.

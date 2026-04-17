@@ -185,6 +185,8 @@ The worker also records:
 
 ## Supported Languages
 
+Note: the service currently supports only 2 languages for code execution: `javascript` and `python`.
+
 Currently executable:
 
 - `python`

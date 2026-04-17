@@ -1,0 +1,59 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: code-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: code-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_exec
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+     
+  api:
+    build: .
+    container_name: code-api
+    ports:
+      - "3000:3000"
+    command: sh -c "npx prisma db push && node dist/app.js"
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - PORT=${PORT:-3000}
+      - REDIS_HOST=redis
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - EXECUTION_TIMEOUT_MS=${EXECUTION_TIMEOUT_MS:-3000}
+      - QUEUE_MAX_WAITING=${QUEUE_MAX_WAITING:-1000}
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-5}
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/code_exec 
+    restart: unless-stopped
+
+  worker:
+    build: .
+    container_name: code-worker
+    command: node dist/worker/worker.js 
+    depends_on:
+      - redis
+      - postgres 
+    environment:
+      - PORT=${PORT:-3000}
+      - REDIS_HOST=redis
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - EXECUTION_TIMEOUT_MS=${EXECUTION_TIMEOUT_MS:-3000}
+      - QUEUE_MAX_WAITING=${QUEUE_MAX_WAITING:-1000}
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-5}
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/code_exec
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
